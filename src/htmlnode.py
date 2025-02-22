@@ -21,3 +21,15 @@ class HTMLNode():
     def __repl__(self):
         return f"tag: {self.tag}; value: {self.value}; children: {self.children}; props: {self.props}"
 
+class LeafNode(HTMLNode):
+    def __init__(self, tag, value, props):
+        super().__init__(tag=tag, value=value, children=None, props=props)
+
+    def to_html(self):
+        if not self.value:
+            raise ValueError
+        if not self.tag:
+            return f"{self.value}"
+        return f"<{self.tag}{self.props_to_html() if self.props else ""}>{self.value}</{self.tag}>"
+
+
