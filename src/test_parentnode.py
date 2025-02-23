@@ -21,14 +21,16 @@ class TestTextNode(unittest.TestCase):
         div1 = LeafNode('div', 'text in a leaf div', {'class': 'a_div'})
         text1 = LeafNode(None, 'Text in a parent node', None)
         b1 = LeafNode('b', 'This is bold text', None)
-        node_list2 = [text1, b1]
-        node_list3 = [div1, node_list2]
+        p1 = ParentNode('p', [text1, b1], None)
+        node_list3 = [div1, p1]
         html_node = ParentNode('div', node_list3, {'class': 'b_div'})
         self.assertEqual(html_node.to_html(), (
             '<div class="b_div">'
             '<div class="a_div">text in a leaf div</div>'
+            '<p>'
             'Text in a parent node'
             '<b>This is bold text</b>'
+            '</p>'
             '</div>'
             ))
 
