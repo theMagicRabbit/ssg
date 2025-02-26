@@ -13,6 +13,26 @@ class TestTextNode(unittest.TestCase):
         new_nodes = split_nodes_delimiter([node], "`", TextType.CODE)
         self.assertEqual(new_nodes, expected)
 
+    def test_bold1(self):
+        expected = [
+            TextNode("This is text with a ", TextType.NORMAL_TEXT),
+            TextNode("bold phrase", TextType.BOLD_TEXT),
+            TextNode(" word", TextType.NORMAL_TEXT),
+        ]
+        node = TextNode("This is text with a **bold phrase** word", TextType.NORMAL_TEXT)
+        new_nodes = split_nodes_delimiter([node], "**", TextType.BOLD_TEXT)
+        self.assertEqual(new_nodes, expected)
+
+    def test_italic1(self):
+        expected = [
+            TextNode("This is text with a ", TextType.NORMAL_TEXT),
+            TextNode("italic phrase", TextType.ITALIC_TEXT),
+            TextNode(" word", TextType.NORMAL_TEXT),
+        ]
+        node = TextNode("This is text with a _italic phrase_ word", TextType.NORMAL_TEXT)
+        new_nodes = split_nodes_delimiter([node], "_", TextType.ITALIC_TEXT)
+        self.assertEqual(new_nodes, expected)
+
 if __name__ == '__main__':
     _ = unittest.main()
 
