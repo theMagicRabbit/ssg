@@ -90,7 +90,7 @@ class TestTextNode(unittest.TestCase):
         expected = []
         text = (
                 "This is text with just an image, no link "
-                "![image](https://example.com/image.gif"
+                "![image](https://example.com/image.gif)"
                 )
         links = extract_markdown_links(text)
         self.assertEqual(links, expected)
