@@ -1,5 +1,5 @@
 import unittest
-from mdextractor import extract_markdown_images
+from mdextractor import extract_markdown_images, extract_markdown_links
 
 class TestTextNode(unittest.TestCase):
     def test_images1(self):
@@ -50,6 +50,50 @@ class TestTextNode(unittest.TestCase):
                 )
         images = extract_markdown_images(text)
         self.assertEqual(images, expected)
+
+    def test_links1(self):
+        expected = [
+                ("to boot dev", "https://www.boot.dev"),
+                ("to youtube", "https://www.youtube.com/@bootdotdev")
+                ]
+        text = (
+                "This is text with a link [to boot dev](https://www.boot.dev) "
+                "and [to youtube](https://www.youtube.com/@bootdotdev)"
+                )
+        links = extract_markdown_links(text)
+        self.assertEqual(links, expected)
+
+    def test_links2(self):
+        expected = [
+                ("link", "https://www.gitlab.com"),
+                ]
+        text = (
+                "This is text with a link [link](https://www.gitlab.com) "
+                )
+        links = extract_markdown_links(text)
+        self.assertEqual(links, expected)
+
+    def test_links3(self):
+        expected = [
+                ("This is a long bit of text. Too long in fact.", "https://www.boot.dev"),
+                ("to youtube", "http://www.youtube.com/@bootdotdev")
+                ]
+        text = (
+                "This is a long bit of text. Too long in fact. "
+                "[This is a long bit of text. Too long in fact.](https://www.boot.dev)"
+                "and [to youtube](http://www.youtube.com/@bootdotdev)"
+                )
+        links = extract_markdown_links(text)
+        self.assertEqual(links, expected)
+
+    def test_links4(self):
+        expected = []
+        text = (
+                "This is text with just an image, no link "
+                "![image](https://example.com/image.gif"
+                )
+        links = extract_markdown_links(text)
+        self.assertEqual(links, expected)
 
 if __name__ == '__main__':
     _ = unittest.main()
