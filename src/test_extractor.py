@@ -95,6 +95,14 @@ class TestTextNode(unittest.TestCase):
         links = extract_markdown_links(text)
         self.assertEqual(links, expected)
 
+    def test_links5(self):
+        expected = [("link", "https://example.com")]
+        text = (
+                "[link](https://example.com)"
+                )
+        links = extract_markdown_links(text)
+        self.assertEqual(links, expected)
+
 if __name__ == '__main__':
     _ = unittest.main()
 
