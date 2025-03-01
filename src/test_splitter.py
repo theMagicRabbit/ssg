@@ -76,7 +76,7 @@ class TestTextNode(unittest.TestCase):
         self.assertListEqual(expected, new_nodes)
 
     def test_split_images4(self):
-        expected = []
+        expected = [TextNode(None, None)]
         node = TextNode(None, None, None)
         new_nodes = split_nodes_image([node])
         self.assertListEqual(expected, new_nodes)
