@@ -3,6 +3,12 @@ import unittest
 from textnode import TextType, TextNode
 
 class TestTextNode(unittest.TestCase):
+    def test_none(self):
+        expected = "TextNode(None, None, None)" 
+        node = TextNode(None, None)
+        node_str = str(node)
+        self.assertEqual(expected, node_str)
+
     def test_eq(self):
         node = TextNode("This is a text node", TextType.BOLD_TEXT)
         node2 = TextNode("This is a text node", TextType.BOLD_TEXT)
