@@ -1,5 +1,5 @@
 import unittest
-from mdsplitter import split_nodes_delimiter, split_nodes_image
+from mdsplitter import split_nodes_delimiter, split_nodes_image, split_nodes_link
 from textnode import TextNode, TextType
 
 class TestTextNode(unittest.TestCase):
@@ -103,7 +103,7 @@ class TestTextNode(unittest.TestCase):
                 "This is text with an [link](https://i.imgur.com/zjjcJKZ.png) and another [second link](https://i.imgur.com/3elNhQu.png)",
                 TextType.NORMAL_TEXT,
                 )
-        new_nodes = split_nodes_image([node])
+        new_nodes = split_nodes_link([node])
         self.assertListEqual(expected, new_nodes)
 
     def test_split_links2(self):
@@ -115,7 +115,7 @@ class TestTextNode(unittest.TestCase):
                 "[link](https://i.imgur.com/zjjcJKZ.png)[second link](https://i.imgur.com/3elNhQu.png)",
                 TextType.NORMAL_TEXT,
                 )
-        new_nodes = split_nodes_image([node])
+        new_nodes = split_nodes_link([node])
         self.assertListEqual(expected, new_nodes)
 
     def test_split_links3(self):
@@ -130,7 +130,7 @@ class TestTextNode(unittest.TestCase):
                 TextType.NORMAL_TEXT,
                 )
         node2 = TextNode("This string has [another link](https://example.com)", TextType.NORMAL_TEXT)
-        new_nodes = split_nodes_image([node, node2])
+        new_nodes = split_nodes_link([node, node2])
         self.assertListEqual(expected, new_nodes)
 
     def test_split_links4(self):
@@ -138,7 +138,7 @@ class TestTextNode(unittest.TestCase):
                 TextNode(None, None, None)
                 ]
         node = TextNode(None, None)
-        new_nodes = split_nodes_image([node])
+        new_nodes = split_nodes_link([node])
         self.assertListEqual(expected, new_nodes)
 
     def test_split_links5(self):
@@ -147,7 +147,7 @@ class TestTextNode(unittest.TestCase):
                 TextNode("a link", TextType.LINKS, "http://example.net"),
                 ]
         node = TextNode("This string has **bold** text and [a link](http://example.net)", TextType.NORMAL_TEXT)
-        new_nodes = split_nodes_image([node])
+        new_nodes = split_nodes_link([node])
         self.assertListEqual(expected, new_nodes)
 
 if __name__ == '__main__':
