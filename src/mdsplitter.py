@@ -17,17 +17,18 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
 def split_nodes_image(old_nodes):
     new_nodes = []
     for node in old_nodes:
-        node_text = node.text
-        if not node.text_type == TextType.NORMAL_TEXT:
+        if node.text_type != TextType.NORMAL_TEXT:
             new_nodes.append(node)
             continue
         images = extract_markdown_images(node.text)
         if not images:
             new_nodes.append(node)
             continue
+        node_text = node.text
         for alt,src in images:
             text_splits = node_text.split(f"![{alt}]({src})", 1)
-            new_nodes.append(TextNode(text_splits[0], TextType.NORMAL_TEXT))
+            if text_splits[0]:
+                new_nodes.append(TextNode(text_splits[0], TextType.NORMAL_TEXT))
             node_text = text_splits[1]
             new_nodes.append(TextNode(alt, TextType.IMAGES, src))
     return new_nodes
