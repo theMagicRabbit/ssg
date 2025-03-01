@@ -129,7 +129,7 @@ class TestTextNode(unittest.TestCase):
                 "[link](https://i.imgur.com/zjjcJKZ.png)[second link](https://i.imgur.com/3elNhQu.png)",
                 TextType.NORMAL_TEXT,
                 )
-        node2 = TextType("This string has [another link](https://example.com)", TextType.NORMAL_TEXT)
+        node2 = TextNode("This string has [another link](https://example.com)", TextType.NORMAL_TEXT)
         new_nodes = split_nodes_image([node, node2])
         self.assertListEqual(expected, new_nodes)
 
