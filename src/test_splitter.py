@@ -150,6 +150,19 @@ class TestTextNode(unittest.TestCase):
         new_nodes = split_nodes_link([node])
         self.assertListEqual(expected, new_nodes)
 
+    def test_split_links6(self):
+        input = (
+                "and a "
+                "[link](https://boot.dev)"
+                )
+        expected = [
+                TextNode("and a ", TextType.NORMAL_TEXT),
+                TextNode("link", TextType.LINKS, "https://boot.dev"),
+                ]
+        node = TextNode(input, TextType.NORMAL_TEXT)
+        new_nodes = split_nodes_link([node])
+        self.assertListEqual(expected, new_nodes)
+
     def test_to_textnode1(self):
         input = (
                 "This is **text** with an _italic_ word and a `code block` and "
