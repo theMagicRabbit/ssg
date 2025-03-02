@@ -202,6 +202,44 @@ class TestTextNode(unittest.TestCase):
         self.maxDiff = None
         self.assertListEqual(expected, new_nodes)
 
+    def test_to_textnode2(self):
+        input = (
+                "Use `code` in your Markdown file."
+                )
+        expected = [
+                TextNode("Use ", TextType.NORMAL_TEXT),
+                TextNode("code", TextType.CODE),
+                TextNode(" in your Markdown file.", TextType.NORMAL_TEXT),
+                ]
+        new_nodes = text_to_textnode(input)
+        self.maxDiff = None
+        self.assertListEqual(expected, new_nodes)
+
+    def test_to_textnode3(self):
+        input = (
+                "Use `code` in your Markdown file."
+                " [link](https://www.example.com)"
+                )
+        expected = [
+                TextNode("Use ", TextType.NORMAL_TEXT),
+                TextNode("code", TextType.CODE),
+                TextNode(" in your Markdown file. ", TextType.NORMAL_TEXT),
+                TextNode("link", TextType.LINKS, "https://www.example.com"),
+                ]
+        new_nodes = text_to_textnode(input)
+        self.maxDiff = None
+        self.assertListEqual(expected, new_nodes)
+
+    def test_to_textnode4(self):
+        input = (
+                ""
+                )
+        expected = [
+                TextNode("", TextType.NORMAL_TEXT, None)
+                ]
+        new_nodes = text_to_textnode(input)
+        self.maxDiff = None
+        self.assertListEqual(expected, new_nodes)
 
 
 if __name__ == '__main__':
