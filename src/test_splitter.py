@@ -1,5 +1,5 @@
 import unittest
-from mdsplitter import split_nodes_delimiter, split_nodes_image, split_nodes_link
+from mdsplitter import split_nodes_delimiter, split_nodes_image, split_nodes_link, text_to_textnode
 from textnode import TextNode, TextType
 
 class TestTextNode(unittest.TestCase):
@@ -149,6 +149,29 @@ class TestTextNode(unittest.TestCase):
         node = TextNode("This string has **bold** text and [a link](http://example.net)", TextType.NORMAL_TEXT)
         new_nodes = split_nodes_link([node])
         self.assertListEqual(expected, new_nodes)
+
+    def test_to_textnode1(self):
+        input = (
+                "This is **text** with an _italic_ word and a `code block` and "
+                "an ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) and a "
+                "[link](https://boot.dev)"
+                )
+        expected = [
+                TextNode("This is ", TextType.NORMAL_TEXT),
+                TextNode("text", TextType.BOLD_TEXT),
+                TextNode(" with an ", TextType.NORMAL_TEXT),
+                TextNode("italic", TextType.ITALIC_TEXT),
+                TextNode(" word and a ", TextType.NORMAL_TEXT),
+                TextNode("code block", TextType.CODE),
+                TextNode(" and an ", TextType.NORMAL_TEXT),
+                TextNode("obi wan image", TextType.IMAGES, "https://i.imgur.com/fJRm4Vk.jpeg"),
+                TextNode(" and a ", TextType.NORMAL_TEXT),
+                TextNode("link", TextType.LINKS, "https://boot.dev"),
+                ]
+        new_nodes = text_to_textnode(input)
+        self.assertListEqual(expected, new_nodes)
+
+
 
 if __name__ == '__main__':
     _ = unittest.main()
