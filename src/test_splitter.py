@@ -92,6 +92,23 @@ class TestTextNode(unittest.TestCase):
         new_nodes = split_nodes_image([node])
         self.assertListEqual(expected, new_nodes)
 
+    def test_split_images6(self):
+        input = (
+                "This is **text** with an _italic_ word and a `code block` and "
+                "an ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) and a "
+                "[link](https://boot.dev)"
+                )
+        expected = [
+                
+                TextNode("This is **text** with an _italic_ word and a `code block` and an ", TextType.NORMAL_TEXT),
+                TextNode("obi wan image", TextType.IMAGES, "https://i.imgur.com/fJRm4Vk.jpeg"),
+                TextNode(" and a [link](https://boot.dev)", TextType.NORMAL_TEXT),
+                ]
+        node = TextNode(input, TextType.NORMAL_TEXT)
+        new_nodes = split_nodes_image([node])
+        self.assertListEqual(expected, new_nodes)
+
+
     def test_split_links1(self):
         expected = [
                 TextNode("This is text with an ", TextType.NORMAL_TEXT),
@@ -182,6 +199,7 @@ class TestTextNode(unittest.TestCase):
                 TextNode("link", TextType.LINKS, "https://boot.dev"),
                 ]
         new_nodes = text_to_textnode(input)
+        self.maxDiff = None
         self.assertListEqual(expected, new_nodes)
 
 
