@@ -31,6 +31,8 @@ def split_nodes_image(old_nodes):
                 new_nodes.append(TextNode(text_splits[0], TextType.NORMAL_TEXT))
             node_text = text_splits[1]
             new_nodes.append(TextNode(alt, TextType.IMAGES, src))
+        if node_text:
+            new_nodes.append(TextNode(node_text, TextType.NORMAL_TEXT))
     return new_nodes
 
 def split_nodes_link(old_nodes):
@@ -47,8 +49,11 @@ def split_nodes_link(old_nodes):
         for txt,url in links:
             text_splits = node_text.split(f"[{txt}]({url})", 1)
             if text_splits[0]:
-                new_nodes.append(TextNode(text_splits[0], TextType.NORMAL_TEXT))
+                text_node = TextNode(text_splits[0], TextType.NORMAL_TEXT)
+                new_nodes.append(text_node)
             node_text = text_splits[1]
             new_nodes.append(TextNode(txt, TextType.LINKS, url))
+        if node_text:
+            new_ndoes.append(TextNode(node_text, TextType.NORMAL_TEXT))
     return new_nodes
 
