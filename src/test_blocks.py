@@ -1,5 +1,5 @@
 import unittest
-from mdblocks import markdown_to_blocks
+from mdblocks import markdown_to_blocks, block_to_block_type, BlockType
 
 class TestTextNode(unittest.TestCase):
     def test_markdown_to_blocks1(self):
@@ -41,6 +41,26 @@ This is a paragraph of text. It has some **bold** and _italic_ words inside of i
                     "- This is the first list item in a list block\n- This is a list item\n- This is another list item",
                     ],
                 )
+
+    def test_block_type1(self):
+        expected = BlockType.HEADING
+        md = "# This is a heading"
+        block_type = block_to_block_type(md)
+        self.assertEqual(expected, block_type)
+
+    def test_block_type2(self):
+        expected = BlockType.HEADING
+        md = "###### This is a heading"
+        block_type = block_to_block_type(md)
+        self.assertEqual(expected, block_type)
+
+    def test_block_type3(self):
+        expected = BlockType.PARAGRAPH
+        md = "####### This is a heading"
+        block_type = block_to_block_type(md)
+        self.assertEqual(expected, block_type)
+
+
 
 
 if __name__ == '__main__':
