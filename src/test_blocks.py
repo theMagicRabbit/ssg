@@ -60,7 +60,63 @@ This is a paragraph of text. It has some **bold** and _italic_ words inside of i
         block_type = block_to_block_type(md)
         self.assertEqual(expected, block_type)
 
+    def test_block_type4(self):
+        expected = BlockType.CODE
+        md = """```
+        this is a code block
+        ```"""
+        block_type = block_to_block_type(md)
+        self.assertEqual(expected, block_type)
 
+    def test_block_type5(self):
+        expected = BlockType.PARAGRAPH
+        md = """```
+        this is not a code block
+        """
+        block_type = block_to_block_type(md)
+        self.assertEqual(expected, block_type)
+
+    def test_block_type6(self):
+        expected = BlockType.QUOTE
+        md = """> This is a quote
+> This is more of the quote"""
+        block_type = block_to_block_type(md)
+        self.assertEqual(expected, block_type)
+
+    def test_block_type7(self):
+        expected = BlockType.PARAGRAPH
+        md = """> This is not a quote
+        because of this
+        """
+        block_type = block_to_block_type(md)
+        self.assertEqual(expected, block_type)
+
+    def test_block_type8(self):
+        expected = BlockType.ULIST
+        md = """- This is ol
+- This is ol"""
+        block_type = block_to_block_type(md)
+        self.assertEqual(expected, block_type)
+
+    def test_block_type9(self):
+        expected = BlockType.PARAGRAPH
+        md = """- This is not ul
+because of this"""
+        block_type = block_to_block_type(md)
+        self.assertEqual(expected, block_type)
+
+    def test_block_type10(self):
+        expected = BlockType.OLIST
+        md = """1. This is ordered list
+2. So is this"""
+        block_type = block_to_block_type(md)
+        self.assertEqual(expected, block_type)
+
+    def test_block_type11(self):
+        expected = BlockType.PARAGRAPH
+        md = """2. This is not OL"""
+        block_type = block_to_block_type(md)
+        self.assertEqual(expected, block_type)
 
 
 if __name__ == '__main__':
