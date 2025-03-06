@@ -1,4 +1,5 @@
 from enum import Enum
+from functools import reduce
 import re
 
 class BlockType(Enum):
@@ -16,29 +17,30 @@ def markdown_to_blocks(markdown):
 
 def block_to_block_type(markdown):
     heading_re = r"^#{1,6}\s+"
-    code_re = r"^(```).*(```)$"
-    quote_re = r"^> "
-    ulist_re = r"^- "
-    olist_re = r"^\n+\. "
-
     heading = re.match(heading_re, markdown, re.M)
-    code = re.match(code_re, markdown, re.M)
-    quote = re.match(quote_re, markdown, re.M)
-    ulist = re.match(ulist_re, markdown, re.M)
-    olist = re.match(olist_re, markdown, re.M)
-
     if heading:
         return BlockType.HEADING
-    elif code:
+    if markdown.startswith("```") and markdown.endswith("```"):
         return BlockType.CODE
-    elif quote:
+    
+    md_list = markdown.splitlines()
+    quote = reduce(lambda cur, next: cur and next.startswith("> "), md_list, True)
+    
+    if quote:
         return BlockType.QUOTE
-    elif ulist:
+    
+    ulist = reduce(lambda cur, next: cur and next.startswith("- "), md_list, True)
+    if ulist:
         return BlockType.ULIST
-    elif olist:
+
+    if markdown.startswith('1.'):
+        i = 1
+        for line in md_list:
+            if not line.startswith(f"{i}."):
+                return BlockType.PARAGRAPH
+            i += 1
         return BlockType.OLIST
-    else:
-        return BlockType.PARAGRAPH
+    return BlockType.PARAGRAPH
 
 
     
