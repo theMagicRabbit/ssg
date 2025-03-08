@@ -1,6 +1,6 @@
 import unittest
 
-from textconverter import text_node_to_html_node
+from textconverter import text_node_to_html_node, markdown_to_html_node
 from textnode import TextNode, TextType
 from htmlnode import LeafNode
 
@@ -66,6 +66,21 @@ class TestTextNode(unittest.TestCase):
         self.assertEqual(html_node.props, None)
         self.assertEqual(html_node.children, None)
 
+    def test_paragraph(self):
+        md = """
+This is **bolded** paragraph
+text in a p
+tag here
+
+This is another paragraph with _italic_ text and `code` here
+
+"""
+        node = markdown_to_html_node(md)
+        html = node.to_html()
+        self.assertEqual(
+            html,
+            "<div><p>This is <b>bolded</b> paragraph text in a p tag here</p><p>This is another paragraph with <i>italic</i> text and <code>code</code> here</p></div>",
+        ) 
 
 if __name__ == '__main__':
     _ = unittest.main()
