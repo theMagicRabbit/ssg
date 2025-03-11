@@ -34,7 +34,8 @@ def markdown_to_html_node(markdown):
                 parent = ParentNode('p', child_nodes)
                 block_html.append(parent)
             case BlockType.CODE:
-                block_html.append(TextNode(block.strip('`'), TextType.CODE))
+                code_node = TextNode(block.strip('`\n'), TextType.CODE)
+                block_html.append(text_node_to_html_node(code_node))
             case BlockType.HEADING:
                 block_html.append(LeafNode('h1', block.lstrip('# ')))
             case BlockType.QUOTE:
