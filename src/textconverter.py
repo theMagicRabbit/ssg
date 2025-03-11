@@ -8,7 +8,7 @@ def text_node_to_html_node(text_node):
     props = None
     match text_node.text_type:
         case TextType.NORMAL_TEXT:
-            return LeafNode(None, text_node.text, props)
+            return LeafNode(None, text_node.text.replace('\n', ' '), props)
         case TextType.BOLD_TEXT:
             return LeafNode('b', text_node.text, props)
         case TextType.ITALIC_TEXT:
