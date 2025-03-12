@@ -1,5 +1,5 @@
 import unittest
-from mdextractor import extract_markdown_images, extract_markdown_links
+from mdextractor import extract_markdown_images, extract_markdown_links, extract_title
 
 class TestTextNode(unittest.TestCase):
     def test_images1(self):
@@ -102,6 +102,65 @@ class TestTextNode(unittest.TestCase):
                 )
         links = extract_markdown_links(text)
         self.assertEqual(links, expected)
+
+    def test_title1(self):
+        expected = "Hello world"
+        md = """
+# Hello world
+
+This is another line.
+## This is a h2 header
+"""
+        title = extract_title(md)
+        self.assertEqual(expected, title)
+
+    def test_title2(self):
+        expected = "Hello world"
+        md = """
+---
+This one has some metadata first
+Date: today
+Author: you
+...
+
+# Hello world
+
+This is another line.
+## This is a h2 header
+"""
+        title = extract_title(md)
+        self.assertEqual(expected, title)
+
+    def test_title3(self):
+        expected = ValueError
+        md = """
+This is another line.
+## This is a h2 header
+"""
+        with self.assertRaises(expected):
+            title = extract_title(md)
+            print(title)
+
+    def test_title4(self):
+        expected = "Hello world"
+        md = """
+---
+This one has some metadata first
+Date: today
+Author: you
+...
+
+
+This is another line.
+
+## This is a h2 header
+
+This has the title below an h2 header
+
+# Hello world
+"""
+        title = extract_title(md)
+        self.assertEqual(expected, title)
 
 if __name__ == '__main__':
     _ = unittest.main()
