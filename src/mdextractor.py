@@ -14,3 +14,9 @@ def extract_markdown_links(md_text):
     matches = re.findall(MD_LINK_RE, md_text)
     return matches
 
+def extract_title(md_text):
+    for line in md_text.splitlines():
+        if line.startswith("# "):
+            return line.lstrip("# ").rstrip()
+    raise ValueError("No h1 line found")
+
