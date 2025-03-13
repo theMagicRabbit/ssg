@@ -93,6 +93,17 @@ class TestTextNode(unittest.TestCase):
         self.assertListEqual(expected, new_nodes)
 
     def test_split_images6(self):
+        expected = [
+                TextNode("JRR Tolkien sitting", TextType.IMAGES, "/images/tolkien.png"),
+                ]
+        node = TextNode(
+                "![JRR Tolkien sitting](/images/tolkien.png)",
+                TextType.NORMAL_TEXT,
+                )
+        new_nodes = split_nodes_image([node])
+        self.assertListEqual(expected, new_nodes)
+
+    def test_split_images7(self):
         input = (
                 "This is **text** with an _italic_ word and a `code block` and "
                 "an ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) and a "
