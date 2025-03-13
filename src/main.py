@@ -16,6 +16,7 @@ def recursive_cp_dir(src, dest):
         rel_src = join(src, f)
         if not isfile(rel_src):
             rel_dest = join(dest, f)
+            mkdir(rel_dest)
             recursive_cp_dir(rel_src, rel_dest)
         else:
             print(f"Copy {rel_src} to {dest}")
