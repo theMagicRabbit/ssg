@@ -41,7 +41,7 @@ def markdown_to_html_node(markdown):
                 block_html.append(LeafNode('h1', block.lstrip('# ')))
             case BlockType.QUOTE:
                 quote_text = "\n".join(map(lambda line: line.lstrip('> '), block.splitlines()))
-                block_html.append(LeafNode('q', quote_text))
+                block_html.append(LeafNode('blockquote', quote_text))
             case BlockType.ULIST:
                 items = map(lambda line: line.lstrip('- '), block.splitlines())
                 ulist_nodes_list = list(map(lambda item: LeafNode('li', item), items))
