@@ -2,14 +2,16 @@ from textnode import TextNode, TextType
 from os.path import exists, isfile, join
 from os import mkdir, listdir
 from shutil import rmtree, copy
+from htmlgenerator import generate_page
+
+def delete_public(public_path):
+    if exists(public_path):
+        rmtree(public_path)
+    mkdir(public_path)
 
 def recursive_cp_dir(src, dest):
     if not exists(src):
         raise FileNotFoundError(f"{src} does not exist")
-    if exists(dest):
-        rmtree(dest)
-    mkdir(dest)
-
     for f in listdir(src):
         rel_src = join(src, f)
         if not isfile(rel_src):
@@ -21,7 +23,9 @@ def recursive_cp_dir(src, dest):
 
 
 def main():
+    delete_public("public")
     recursive_cp_dir("static", "public")
+    generate_page("content/index.md", "template.html", "public")
 
 if __name__ == '__main__':
     main()
