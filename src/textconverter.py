@@ -20,7 +20,7 @@ def text_node_to_html_node(text_node):
             return LeafNode('a', text_node.text, props)
         case TextType.IMAGES:
             props = {'src': text_node.url, 'alt': text_node.text}
-            return LeafNode('img', None, props)
+            return LeafNode('img', "", props)
         case _:
             raise ValueError(f"TextNode is of unknown value: {text_node.text_type}")
 
