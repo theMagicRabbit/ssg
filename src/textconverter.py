@@ -55,8 +55,11 @@ def markdown_to_html_node(markdown):
                 lines = block.splitlines()
                 matches = map(lambda line: match(ol_re, line), lines)
                 items = map(lambda line_m: line_m[0].lstrip(line_m[1].group(1)), zip(lines, matches))
-                olist_nodes_list = list(map(lambda item: LeafNode('li', item), items))
-                list_node = ParentNode('ol', olist_nodes_list)
+                child_list = []
+                for list_item in items:
+                    ol_item_node = list(map(lambda md_node: text_node_to_html_node(md_node), text_to_textnode(list_item)))
+                    child_list.append(ParentNode('li', ol_item_node))
+                list_node = ParentNode('ol', child_list)
                 block_html.append(list_node)
             case _:
                 raise TypeError("Block is unknown type")
