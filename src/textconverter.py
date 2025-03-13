@@ -44,8 +44,11 @@ def markdown_to_html_node(markdown):
                 block_html.append(LeafNode('blockquote', quote_text))
             case BlockType.ULIST:
                 items = map(lambda line: line.lstrip('- '), block.splitlines())
-                ulist_nodes_list = list(map(lambda item: LeafNode('li', item), items))
-                list_node = ParentNode('ul', ulist_nodes_list)
+                child_list = []
+                for list_item in items:
+                    ulist_item_html = list(map(lambda md_node: text_node_to_html_node(md_node), text_to_textnode(list_item)))
+                    child_list.append(ParentNode('li', ulist_item_html))
+                list_node = ParentNode('ul', child_list)
                 block_html.append(list_node)
             case BlockType.OLIST:
                 ol_re = r"^(\d+\.\s+)"
@@ -59,10 +62,4 @@ def markdown_to_html_node(markdown):
                 raise TypeError("Block is unknown type")
         html_nodes.extend(block_html)
     return ParentNode('div', html_nodes)
-
-
-
-        
-
-    
 
