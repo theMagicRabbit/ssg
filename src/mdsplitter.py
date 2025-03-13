@@ -54,7 +54,7 @@ def split_nodes_link(old_nodes):
             node_text = text_splits[1]
             new_nodes.append(TextNode(txt, TextType.LINKS, url))
         if node_text:
-            new_ndoes.append(TextNode(node_text, TextType.NORMAL_TEXT))
+            new_nodes.append(TextNode(node_text, TextType.NORMAL_TEXT))
     return new_nodes
 
 def text_to_textnode(text):
