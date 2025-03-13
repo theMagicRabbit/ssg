@@ -113,6 +113,26 @@ This is a second paragraph
             "<div><p>This paragraph has a quote</p><blockquote>This is a quotation</blockquote><p>This is a second paragraph</p></div>",
         )
 
+    def test_multiline_quoteblock(self):
+        md = """
+# Tolkien Fan Club
+
+Here's the deal, **I like Tolkien**.
+
+> "I am in fact a Hobbit in all but size."
+>
+> -- J.R.R. Tolkien
+
+## Blog posts
+"""
+
+        node = markdown_to_html_node(md)
+        html = node.to_html()
+        self.assertEqual(
+            html,
+            """<div><h1>Tolkien Fan Club</h1><p>Here's the deal, <b>I like Tolkien</b>.</p><blockquote>"I am in fact a Hobbit in all but size."\n\n-- J.R.R. Tolkien</blockquote><h1>Blog posts</h1></div>""",
+        )
+
 if __name__ == '__main__':
     _ = unittest.main()
 

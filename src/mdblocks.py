@@ -28,7 +28,7 @@ def block_to_block_type(markdown):
         return BlockType.CODE
     
     md_list = markdown.splitlines()
-    quote = reduce(lambda cur, next: cur and next.startswith("> "), md_list, True)
+    quote = reduce(lambda cur, next: cur and next.startswith(">"), md_list, True)
     
     if quote:
         return BlockType.QUOTE
@@ -45,7 +45,4 @@ def block_to_block_type(markdown):
             i += 1
         return BlockType.OLIST
     return BlockType.PARAGRAPH
-
-
-    
 
