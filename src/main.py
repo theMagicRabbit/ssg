@@ -1,4 +1,4 @@
-from textnode import TextNode, TextType
+from sys import argv
 from os.path import exists, isfile, join
 from os import mkdir, listdir
 from shutil import rmtree, copy
@@ -23,12 +23,14 @@ def recursive_cp_dir(src, dest):
             copy(rel_src, dest)
 
 
-def main():
+def main(basepath='/'):
     delete_public("public")
     recursive_cp_dir("static", "public")
-    #generate_page("content/index.md", "template.html", "public")
-    generate_pages_recursive("content", "template.html", "public")
+    generate_pages_recursive("content", "template.html", "public", basepath)
 
 if __name__ == '__main__':
-    main()
+    if not len(argv) > 1:
+        main()
+    else:
+        main(argv[1])
 
