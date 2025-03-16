@@ -1,7 +1,7 @@
 from textconverter import markdown_to_html_node
 from mdextractor import extract_title
-from os.path import basename, join, splitext
-from os import makedirs
+from os.path import basename, join, splitext, isfile, exists
+from os import makedirs, listdir, mkdir
 
 def generate_page(from_path, template_path, dest_path):
     with open(from_path, 'r', encoding='UTF-8') as source_file:
@@ -17,9 +17,16 @@ def generate_page(from_path, template_path, dest_path):
     with open(html_file, 'w', encoding='UTF-8') as out_file:
         out_file.write(html_doc)
 
-    
-    
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+    for f in listdir(dir_path_content):
+        rel_src = join(dir_path_content, f)
+        if not isfile(rel_src):
+            rel_dest = join(dest_dir_path, f)
+            if not exists(dest_dir_path):
+                mkdir(dest_dir_path)
+            generate_pages_recursive(rel_src, template_path, rel_dest)
+        elif rel_src.endswith(".md"):
+            print(f"Generating page from: {rel_src}")
+            generate_page(rel_src, template_path, dest_dir_path)
 
-
-    
 
