@@ -39,7 +39,8 @@ def markdown_to_html_node(markdown):
                 block_html.append(ParentNode('pre', [html_node]))
             case BlockType.HEADING:
                 h_level = f"h{block.count('#')}"
-                block_html.append(LeafNode(h_level, block.lstrip('# ')))
+                heading_nodes = list(map(lambda md_node: text_node_to_html_node(md_node), text_to_textnode(block.lstrip('# '))))
+                block_html.append(ParentNode(h_level, heading_nodes))
             case BlockType.QUOTE:
                 quote_text = "\n".join(map(lambda line: line.lstrip('> '), block.splitlines()))
                 block_html.append(LeafNode('blockquote', quote_text))
