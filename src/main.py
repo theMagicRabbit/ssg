@@ -22,11 +22,10 @@ def recursive_cp_dir(src, dest):
             print(f"Copy {rel_src} to {dest}")
             copy(rel_src, dest)
 
-
 def main(basepath='/'):
-    delete_public("public")
-    recursive_cp_dir("static", "public")
-    generate_pages_recursive("content", "template.html", "public", basepath)
+    delete_public("docs")
+    recursive_cp_dir("static", "docs")
+    generate_pages_recursive("content", "template.html", "docs", basepath)
 
 if __name__ == '__main__':
     if not len(argv) > 1:
